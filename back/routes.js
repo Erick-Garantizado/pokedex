@@ -21,5 +21,9 @@ router.post('/pokemons', upload.single('imagem'), PokemonController.createOne)
 router.put('/pokemons/:id', upload.single('imagem'), PokemonController.update)
 router.delete('/pokemons/:id', PokemonController.destroy)
 
+router.get('/', (req, res) => {
+    res.send({ resposta: 'ok' })
+})
+
 
 module.exports = router

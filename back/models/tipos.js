@@ -15,7 +15,8 @@ module.exports = (sequelize, DataTypes) => {
   }
   tipos.init({
     nome: DataTypes.STRING,
-    descricao: DataTypes.STRING
+    descricao: DataTypes.STRING,
+    cor: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'tipos',

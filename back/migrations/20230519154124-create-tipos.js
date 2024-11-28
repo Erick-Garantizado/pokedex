@@ -16,6 +16,9 @@ module.exports = {
       descricao: {
         type: Sequelize.STRING(500)
       },
+      cor: {
+        type: Sequelize.STRING(500)
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

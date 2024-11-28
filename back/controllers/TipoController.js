@@ -28,7 +28,8 @@ module.exports = class TipoController {
         
             const tipo = await tipos.create({
                 nome: dados.nome,
-                descricao: dados.descricao
+                descricao: dados.descricao,
+                cor: dados.cor
             })
 
             res.json(tipo)
@@ -42,10 +43,12 @@ module.exports = class TipoController {
             const { id } = req.params
             const { nome } = req.body
             const { descricao } = req.body
+            const { cor } = req.body
 
             const tipo = await tipos.update({
                 nome:nome,
-                descricao:descricao
+                descricao:descricao,
+                cor:cor
             }, {
                 where: {
                     id:id
