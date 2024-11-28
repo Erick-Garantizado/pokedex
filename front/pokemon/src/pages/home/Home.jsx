@@ -1,54 +1,13 @@
-import { Container, TableContainer, Table, TableBody, TableCell, TableHead, TableRow, Paper, Button, Modal, Box, Typography, Snackbar, Alert } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import { Container, Box, Typography, Card, CardActionArea, CardMedia, CardContent, Button } from '@mui/material'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import api from '../../services/api'
-import { LoadingButton } from '@mui/lab'
-
-const style = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 400,
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: 24,
-    p: 4,
-  };
+import './home.css'
 
 const Home = () => {
-    const [open, setOpen] = useState(false);
-    const [openErro, setOpenErro] = useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
-    const [loading, setLoading] = useState(false)
-    const [sucesso, setSucesso] = useState(false)
-    const [idExcluao, setIdExcluao] = useState(0)
-    const [error, setError] = useState('')
 
   const [pokemons, setPokemons] = useState([])
   const navigate = useNavigate()
-
-  const handleExcluir = () => {
-        setLoading(true)
-        api.delete(`/pokemons/${idExcluao}`)
-        .then(() => {
-            handleClose()
-            setSucesso(true)
-        })
-        .catch((e) => {            
-            setOpenErro(true)
-            setError(e.config.message)
-        })
-        .finally(() => {
-            setTimeout(() => {
-                window.location.reload()
-                setLoading(false)
-                setOpenErro(false)
-                setSucesso(false)
-            }, 2000);
-        })
-    }
 
   useEffect(() => {
     api.get("/pokemons")
@@ -61,83 +20,39 @@ const Home = () => {
   }, [])
   
   return (
-    <Container>
-        <Snackbar open={sucesso} autoHideDuration={6000} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
-            <Alert severity="success" sx={{ width: '100%' }}>
-                Exclusão efetuada!
-            </Alert>
-        </Snackbar>
-        <Snackbar open={openErro} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
-            <Alert severity='error' sx={{ width:'100%' }}>
-                {error}
-            </Alert>
-        </Snackbar>
-      <TableContainer component={Paper} sx={{my:5}}>
-            <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                <TableHead>
-                    <TableRow>
-                        <TableCell></TableCell>
-                        <TableCell align="center">Nome</TableCell>
-                        <TableCell align="center">Tipo</TableCell>
-                        <TableCell align="center">Habilidade</TableCell>
-                    </TableRow>
-                </TableHead>
+    <Container sx={{ display:'flex', flexDirection: 'column', alignItems:'center'}}>
+      <Box marginTop={'20px'}>
+        <Typography className='bungee-spice-regular' variant=''>
+          MY POKEDEX
+        </Typography>
+      </Box>
+      <Box sx={ {display:'flex', flexWrap:'wrap', justifyContent: 'space-around', gap:5 } }>
+        
+        { pokemons.map((pokemon, index) => (
+          <Card sx={{ maxWidth: 345 }} key={index}>
+            <CardActionArea>
+              <CardMedia
+                component="img"
+                height="240"
+                image={ process.env.REACT_APP_HOST_API+pokemon.imagem }
+                alt={pokemon.nome}
+                onClick={() => {navigate(`/detalhe-pokemon/${pokemon.id}`)}}
+              />
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="div">
+                  { pokemon.nome }
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                <Button variant='contained' sx={{ backgroundColor: pokemon.tipo.cor }} >
+                  { pokemon.tipo.nome }
+                </Button>
+                </Typography>
+              </CardContent>
+            </CardActionArea>
+          </Card>
+        )) }
 
-                <TableBody>
-                    {pokemons.map((pokemon, index) => (
-                        <TableRow
-                        key={index}
-                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                        >
-                          <TableCell align="left"> 
-                            <Button style={{background: '#c62828' }}  variant='contained' onClick={() => {
-                                setIdExcluao(pokemon.id)
-                                handleOpen()
-                             }}>
-                                Excluir
-                            </Button> 
-                             <Button style={{background: '#f9a825' }} variant='contained' onClick={() => {navigate(`/detalhe-pokemon/${pokemon.id}`)}}>
-                                Detalhes
-                            </Button> 
-                             <Button variant='contained' onClick={() => {navigate(`/atualiza-pokemon/${pokemon.id}`)}}>
-                                Atualizar
-                            </Button> 
-                          </TableCell>
-                          <TableCell align="center">{pokemon.nome}</TableCell>
-                          { 
-                            pokemon.tipo ? 
-                            (<TableCell align="center">{pokemon.tipo.nome}</TableCell>) : 
-                            ( <TableCell align="center">Indefinido</TableCell> )
-                          }
-                          <TableCell align="center">{pokemon.habilidades}</TableCell>
-                        </TableRow>
-                    ))}
-                </TableBody>
-
-                <Modal
-                    open={open}
-                    onClose={handleClose}
-                    aria-labelledby="modal-modal-title"
-                    aria-describedby="modal-modal-description"
-                >
-                    <Box sx={style}>
-                    <Typography id="modal-modal-title" variant="h6" component="h2">
-                        Alerta!
-                    </Typography>
-                    <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                        Tem certeza que quer fazer esta exclusão?
-                    </Typography><br />
-                    <LoadingButton loading={loading} style={{background: '#388e3c' }}  variant='contained' onClick={handleExcluir}>
-                        Sim
-                    </LoadingButton> 
-                    <Button style={{background: '#f9a825' }} variant='contained' onClick={handleClose}>
-                        Não
-                    </Button> 
-                    </Box>
-                </Modal>
-
-            </Table>
-        </TableContainer>      
+      </Box>
     </Container>
   )
 }

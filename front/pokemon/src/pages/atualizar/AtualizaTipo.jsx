@@ -1,7 +1,7 @@
 import { Alert, Container, FormControl, Snackbar, TextField } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import api from '../../services/api'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { LoadingButton } from '@mui/lab'
 
 const AtualizaTipo = () => {
@@ -11,7 +11,7 @@ const AtualizaTipo = () => {
   const [loading, setLoading] = useState(false)
   const [sucesso, setSucesso] = useState(false)
   const [error, setError] = useState('')
-  const navigate = useNavigate()
+  
 
   const { id } = useParams()
 
@@ -32,12 +32,12 @@ const AtualizaTipo = () => {
         setSucesso(false)
       }, 2000)
     })
-  }, [])
+  }, [id])
 
   const handleAtualiza = () => {
     api.put(`/tipos/${id}`, {
       nome:nome,
-      descricao, descricao
+      descricao,
     })
     .then(() => {
       setSucesso(true)

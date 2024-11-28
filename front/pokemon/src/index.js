@@ -8,7 +8,7 @@ import Rotas from './Rotas';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <BrowserRouter>
-  <Navegacao/>
-  <Rotas/>
+    <Navegacao/>
+    <Rotas/>
   </BrowserRouter>
 );

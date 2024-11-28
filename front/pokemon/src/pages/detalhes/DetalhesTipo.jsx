@@ -15,7 +15,7 @@ const DetalheTipo = () => {
     .catch((error) => {
       alert(error)
     })
-  }, [])
+  }, [id])
 
   return (
     <>

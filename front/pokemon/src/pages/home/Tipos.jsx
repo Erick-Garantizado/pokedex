@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import api from '../../services/api'
-import { TableContainer, Table, TableBody, TableCell, TableHead, TableRow, Paper, Button, Container, Typography, Box, Modal, Snackbar, Alert} from '@mui/material'
+import { TableContainer, Table, TableBody, TableCell, TableRow, Paper, Button, Container, Typography, Box, Modal, Snackbar, Alert} from '@mui/material'
 import { useNavigate } from 'react-router-dom'
-import { red } from '@mui/material/colors'
+// import { red } from '@mui/material/colors'
 import { LoadingButton } from '@mui/lab'
 
 const style = {
@@ -15,8 +15,7 @@ const style = {
     border: '2px solid #000',
     boxShadow: 24,
     p: 4,
-  };
-
+};
 
 const Tipos = () => {
     const [open, setOpen] = useState(false);
@@ -29,7 +28,7 @@ const Tipos = () => {
     const [error, setError] = useState('')
 
     const [tipos, setTipos] = useState([])
-    const danger = red[800]
+    // const danger = red[800]
     const navigate = useNavigate()
 
     const handleExcluir = () => {
@@ -62,7 +61,7 @@ const Tipos = () => {
             console.log(error)
         })
     }, [])
-  return (
+    return (
     <Container>
         <Snackbar open={sucesso} autoHideDuration={6000} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
             <Alert severity="success" sx={{ width: '100%' }}>
@@ -74,65 +73,71 @@ const Tipos = () => {
                 {error}
             </Alert>
         </Snackbar>
-        <TableContainer component={Paper} >
-            <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                <TableHead>
-                    <TableRow>
-                        <TableCell></TableCell>
-                        <TableCell align="left">Nome</TableCell>
-                    </TableRow>
-                </TableHead>
 
-                <TableBody>
-                    {tipos.map((tipo, index) => (
-                        <TableRow
-                        key={index}
-                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                        >
-                        <TableCell align="left">
-                             <Button style={{background: '#c62828' }}  variant='contained' onClick={() => {
-                                setIdExcluao(tipo.id)
-                                handleOpen()
-                             }}>
-                                Excluir
-                            </Button> 
-                             <Button style={{background: '#f9a825' }} variant='contained' onClick={() => {navigate(`/detalhe-tipo/${tipo.id}`)}}>
-                                Detalhes
-                            </Button> 
-                             <Button variant='contained' onClick={() => {navigate(`/atualiza-tipo/${tipo.id}`)}}>
-                                Atualizar
-                            </Button> 
-                        </TableCell>
-                        <TableCell align="left">{tipo.nome}</TableCell>
-                        </TableRow>
-                    ))}
-                </TableBody>
-                <Modal
-                    open={open}
-                    onClose={handleClose}
-                    aria-labelledby="modal-modal-title"
-                    aria-describedby="modal-modal-description"
-                >
-                    <Box sx={style}>
-                    <Typography id="modal-modal-title" variant="h6" component="h2">
-                        Alerta!
-                    </Typography>
-                    <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                        Tem certeza que quer fazer esta exclusão?
-                    </Typography><br />
-                    <LoadingButton loading={loading} style={{background: '#388e3c' }}  variant='contained' onClick={handleExcluir}>
-                        Sim
-                    </LoadingButton> 
-                    <Button style={{background: '#f9a825' }} variant='contained' onClick={handleClose}>
-                        Não
-                    </Button> 
-                    </Box>
-                </Modal>
+        <Box marginTop={2} display={'flex'}>
+            <Typography className='bungee-spice-regular' variant=''>
+                TIPOS DE POKEMON
+            </Typography>
+            <TableContainer component={Paper} >
+                <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                    
+                    <TableBody>
+                        {tipos.map((tipo, index) => (
+                            <TableRow
+                            key={index}
+                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                            >
+                            <TableCell align="left">
+                                <Button sx={{ marginX:'5px' }} style={{background: '#c62828' }}  variant='contained' onClick={() => {
+                                    setIdExcluao(tipo.id)
+                                    handleOpen()
+                                }} >
+                                    Excluir
+                                </Button> 
+                                <Button sx={{ marginX:'5px' }} style={{background: '#f9a825' }} variant='contained' onClick={() => {navigate(`/detalhe-tipo/${tipo.id}`)}}>
+                                    Detalhes
+                                </Button> 
+                                <Button sx={{ marginX:'5px' }} variant='contained' onClick={() => {navigate(`/atualiza-tipo/${tipo.id}`)}}>
+                                    Atualizar
+                                </Button> 
+                            </TableCell>
+                            <TableCell align="left">
+                                <Button variant='contained' sx={{ backgroundColor: tipo.cor }} >
+                                    {tipo.nome}
+                                </Button>
+                            </TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                    <Modal
+                        open={open}
+                        onClose={handleClose}
+                        aria-labelledby="modal-modal-title"
+                        aria-describedby="modal-modal-description"
+                    >
+                        <Box sx={style}>
+                        <Typography id="modal-modal-title" variant="h6" component="h2">
+                            Alerta!
+                        </Typography>
+                        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                            Tem certeza que quer fazer esta exclusão?
+                        </Typography><br />
+                        <LoadingButton loading={loading} style={{background: '#388e3c' }}  variant='contained' onClick={handleExcluir}>
+                            Sim
+                        </LoadingButton> 
+                        <Button style={{background: '#f9a825' }} variant='contained' onClick={handleClose}>
+                            Não
+                        </Button> 
+                        </Box>
+                    </Modal>
 
-            </Table>
-        </TableContainer>
+                </Table>
+            </TableContainer>
+        </Box>
+
     </Container>
-  )
+
+    )
 }
 
 export default Tipos

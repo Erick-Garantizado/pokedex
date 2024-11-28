@@ -1,4 +1,4 @@
-import { AppBar, Box, Drawer, IconButton, List, Toolbar, Typography, createTheme } from '@mui/material'
+import { AppBar, Box, Drawer, IconButton, List, Toolbar, Typography } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu'
 import { Home, Add, CatchingPokemon } from '@mui/icons-material'
 import React, { useState } from 'react'
@@ -6,20 +6,14 @@ import ItemDaLista from './ItemDaLista'
 
 const Navegacao = () => {
   const [drawer, setDrawer] = useState(false)
-  const [anchorEl, setAnchorEl] = useState(null)
-  const open = Boolean(anchorEl)
+  // const [anchorEl, setAnchorEl] = useState(null) 
+  // const open = Boolean(anchorEl)
   
   const handleClick = (event) => {
     setDrawer(true)
   }
 
 
-  const theme = createTheme({
-    status: {
-      danger: '#e53e3e'
-    }
-  })
-  
   return (
     <>
         <AppBar style={{background: '#e53e3e'}}  position='static' >
@@ -38,7 +32,7 @@ const Navegacao = () => {
             <MenuIcon />
             </IconButton>
         <Typography variant='h5' sx={{ flexGrow:1 }}>
-          Pokemdex
+          
         </Typography>
         </Toolbar>
         </AppBar>

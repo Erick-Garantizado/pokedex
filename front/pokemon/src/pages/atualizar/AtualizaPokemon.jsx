@@ -7,7 +7,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 
 const AtualizaPokemon = () => {
   const navigate = useNavigate()
-  const [logo, setLogo] = useState('')
+  // const [logo, setLogo] = useState('')
   const [open, setOpen] = useState(false)
   const [loading, setLoading] = useState(false)
   const [sucesso, setSucesso] = useState(false)
@@ -51,7 +51,7 @@ const AtualizaPokemon = () => {
         setSucesso(false)
       }, 2000)
     })
-  }, [])
+  }, [id])
 
   const fileChange = (files) => {
       setImagem(files[0])

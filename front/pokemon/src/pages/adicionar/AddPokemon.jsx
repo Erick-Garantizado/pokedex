@@ -1,4 +1,4 @@
-import { Alert, Box, Container, FormControl, MenuItem, Select, Snackbar, TextField } from '@mui/material'
+import { Alert, Box, Container, FormControl, InputLabel, MenuItem, Select, Snackbar, TextField, Typography } from '@mui/material'
 import FileUpload from 'react-mui-fileuploader'
 import React, { useEffect, useState } from 'react'
 import api from '../../services/api'
@@ -20,7 +20,6 @@ const AddPokemon = () => {
     api.get('/tipos')
     .then( ({ data }) => {
       setTipos(data)
-      console.log(data)
     })
     .catch((e) => {
       setOpen(true)
@@ -83,33 +82,40 @@ const AddPokemon = () => {
           {error}
         </Alert>
       </Snackbar>
-        <h2>Insira os dados do seu novo pokemon</h2>
-        <hr />
-      <Box sx={{ minWidth: 120 }}>
-        <FormControl fullWidth>
+
+      <Box sx={{ display:'flex', flexDirection:'column', justifyContent: 'center', alignItems: 'center' }}>
+        <Typography className='bungee-spice-regular' variant=''>
+          Adicione um novo pokemon
+        </Typography>
+        <FormControl sx={{ gap:2, margin:3 }}>
           <TextField 
           label="Nome" 
           variant="outlined"
           value={nome} 
-          onChange={(e) => {setNome(e.target.value)}}/><br />
+          onChange={(e) => {setNome(e.target.value)}}/>
 
           <TextField 
           label="Habilidades" 
           variant="outlined"
           value={habilidades} 
-          onChange={(e) => {setHabilidades(e.target.value)}}/><br />
-          
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value={tipoPokemon}
-            onChange={(e) => {setTipoPokemon(e.target.value)}}>
-              {
-                tipos.map((tipo) => (
-                  <MenuItem value={tipo.id}> { tipo.nome } </MenuItem>
-                ))
-              }
-          </Select><br />
+          onChange={(e) => {setHabilidades(e.target.value)}}/>
+
+          <FormControl>
+            <InputLabel id="tipoPokemon">Tipo</InputLabel>
+            <Select
+              labelId='tipoPokemon'
+              id='tipoPokemon'
+              label='tipoPokemon'
+              value={tipoPokemon}
+              onChange={(e) => {setTipoPokemon(e.target.value)}}>
+                {
+                  tipos.map((tipo) => (
+                    <MenuItem value={tipo.id}> { tipo.nome } </MenuItem>
+                  ))
+                }
+            </Select>
+          </FormControl>
+
           <FileUpload
               title=''
               header="Arraste para esta área"
@@ -117,7 +123,7 @@ const AddPokemon = () => {
               buttonLabel="Clique aqui"
               rightLabel="para selecionar"
               onFilesChange={fileChange}
-          /><br />
+          />
           <LoadingButton loading={loading} variant='contained' onClick={handleSubmit}>
             Enviar
           </LoadingButton>
